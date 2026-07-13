@@ -1,0 +1,1 @@
+:root { --text-body:16px; --line-body:1.6; } .numeric,.scoreboard-top,.scoreboard-bottom,.team-panel strong,.feature-number,.steps span,.section-label,.hero-kicker { font-family:var(--font-numeral); font-variant-numeric:tabular-nums; }
