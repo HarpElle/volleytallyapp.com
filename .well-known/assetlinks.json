@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.HarpElle.volleytally",
+      "sha256_cert_fingerprints": [
+        "1C:95:32:5C:C5:6A:91:00:75:BB:43:46:0D:86:EF:5B:33:72:81:A4:AF:2C:02:ED:87:4F:CA:BF:0F:F7:8C:85"
+      ]
+    }
+  }
+]
