@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["TZDC7Y5JS6.com.HarpElle.volleytally"],
+        "components": [
+          {
+            "/": "/live/*",
+            "comment": "VolleyTally live match links open directly in VolleyTally."
+          }
+        ]
+      }
+    ]
+  }
+}

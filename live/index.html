@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Watch a live match | VolleyTally</title>
+  <meta name="description" content="Follow a volleyball match live on VolleyTally.">
+  <meta name="robots" content="noindex">
+  <meta property="og:title" content="Follow this volleyball match live">
+  <meta property="og:description" content="Someone is sharing this match live on VolleyTally. Open the link to follow the score.">
+  <meta property="og:image" content="https://volleytallyapp.com/assets/images/volleytally-og.png">
+  <meta name="theme-color" content="#0e0d0c">
+  <link rel="icon" href="/assets/images/volleytally-icon.png">
+  <link rel="stylesheet" href="/assets/site.css">
+  <style>
+    [hidden] { display:none !important; }
+    .watch-wrap { width:min(560px,calc(100% - 2*var(--pad))); margin:0 auto; padding:clamp(48px,9vw,110px) 0; text-align:center; }
+    .watch-wrap h1 { font-size:clamp(2.6rem,7vw,4.6rem); margin-bottom:14px; }
+    .watch-lead { color:var(--muted); font-size:1.08rem; line-height:1.65; margin-bottom:36px; }
+    .watch-code { display:inline-flex; gap:.35em; justify-content:center; margin:0 auto 36px; padding:18px 26px; border:1px solid var(--line); border-radius:14px; background:var(--surface); font:700 clamp(2.2rem,8vw,3.4rem) 'DM Mono',monospace; letter-spacing:.18em; }
+    .watch-actions { display:flex; flex-direction:column; gap:12px; align-items:stretch; }
+    .watch-actions .button { justify-content:center; }
+    .watch-alt { margin-top:34px; color:var(--muted); font-size:.95rem; line-height:1.7; }
+    .watch-alt strong { color:var(--ink); }
+    .watch-missing { color:var(--muted); }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="VolleyTally home"><img src="/assets/images/volleytally-icon.png" alt="" width="44" height="44"><span>VolleyTally</span></a>
+  </header>
+
+  <main class="watch-wrap" id="main">
+    <p class="section-label">Live match</p>
+    <h1>Follow it live.</h1>
+    <p class="watch-lead">Someone is sharing this match on VolleyTally. Open it in the app to follow the score as it happens.</p>
+
+    <div id="code-box" class="watch-code" aria-label="Match code" hidden></div>
+    <p id="no-code" class="watch-missing" hidden>This link is missing its match code. Ask whoever shared it to send it again.</p>
+
+    <div id="actions" class="watch-actions" hidden></div>
+    <p id="alt" class="watch-alt" hidden></p>
+  </main>
+
+  <script>
+  (function () {
+    /**
+     * VolleyTally live-link landing page.
+     *
+     * This path is VolleyTally's OWN share namespace and always hands off to
+     * VolleyTally — never to VolleyTrack. That is deliberate:
+     *
+     *   /live/<CODE>   this page. Links shared FROM VolleyTally. VolleyTally
+     *                  claims this path as a Universal/App Link, so installed
+     *                  users open the match directly and never see this page.
+     *   /watch/<CODE>  VolleyTrack's spectator share landing (see /watch/).
+     *                  VolleyTally deliberately does NOT claim that path, so
+     *                  VolleyTrack's shared links keep working unchanged.
+     *
+     * VolleyTally can still open a VolleyTrack broadcast by code from inside
+     * the app — that is a one-way capability and does not belong in this chain.
+     */
+    var VOLLEYTALLY = {
+      name: 'VolleyTally',
+      scheme: function (code) { return 'volleytally://spectate/' + code; },
+      appStore: 'https://apps.apple.com/us/app/volleytally/id6743733066',
+      playStore: 'https://play.google.com/store/apps/details?id=com.HarpElle.volleytally'
+    };
+
+    var code = null;
+    var m = location.pathname.match(/^\/live\/([A-Za-z0-9]{3,8})\/?$/);
+    if (m) code = m[1];
+    if (!code) code = new URLSearchParams(location.search).get('c');
+    if (code) code = code.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8) || null;
+
+    var codeBox = document.getElementById('code-box');
+    var actions = document.getElementById('actions');
+    var alt = document.getElementById('alt');
+    var isAndroid = /Android/i.test(navigator.userAgent);
+    var storeHref = (isAndroid && VOLLEYTALLY.playStore) ? VOLLEYTALLY.playStore : VOLLEYTALLY.appStore;
+    var storeLabel = 'Get VolleyTally' + (isAndroid && VOLLEYTALLY.playStore ? ' on Google Play' : ' on the App Store');
+
+    if (!code) {
+      document.getElementById('no-code').hidden = false;
+      var storeBtn = document.createElement('a');
+      storeBtn.className = 'button button-quiet';
+      storeBtn.href = storeHref;
+      storeBtn.rel = 'noopener';
+      storeBtn.textContent = storeLabel;
+      actions.appendChild(storeBtn);
+      actions.hidden = false;
+      return;
+    }
+
+    code.split('').forEach(function (ch) {
+      var s = document.createElement('span');
+      s.textContent = ch;
+      codeBox.appendChild(s);
+    });
+    codeBox.hidden = false;
+
+    var open = document.createElement('a');
+    open.className = 'button button-primary';
+    open.href = VOLLEYTALLY.scheme(code);
+    open.textContent = 'Open in VolleyTally';
+    actions.appendChild(open);
+
+    var store = document.createElement('a');
+    store.className = 'button button-quiet';
+    store.href = storeHref;
+    store.rel = 'noopener';
+    store.textContent = storeLabel;
+    actions.appendChild(store);
+    actions.hidden = false;
+
+    alt.innerHTML = 'Already have the app? Open it, choose <strong>Watch a live match</strong>, and enter code <strong>' + code + '</strong>.';
+    alt.hidden = false;
+  })();
+  </script>
+</body>
+</html>
