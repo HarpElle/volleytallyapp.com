@@ -1,0 +1,33 @@
+{
+  "schema": "harpelle-status/1",
+  "repo": "HarpElle/volleytallyapp.com",
+  "name": "volleytallyapp.com",
+  "kind": "Static marketing site",
+  "stage": "live",
+  "health": "idle",
+  "summary": "VolleyTally marketing and support site.",
+  "updatedAt": "2026-09-04",
+  "updatedBy": "Claude Code (Fable 5.1)",
+  "current": [
+    "Last change 2026-07-24 (Android assetlinks). Three dirty local files on Primary."
+  ],
+  "inFlight": [],
+  "blockers": [],
+  "decisions": [],
+  "next": [
+    "Triage the 3 local edits.",
+    "Refresh screenshots when 4.0 ships."
+  ],
+  "later": [],
+  "intentions": "Follows the app.",
+  "links": [
+    {
+      "label": "Repo",
+      "url": "https://github.com/HarpElle/volleytallyapp.com"
+    },
+    {
+      "label": "Live",
+      "url": "https://volleytallyapp.com"
+    }
+  ]
+}
