@@ -4,10 +4,10 @@
   "name": "volleytallyapp.com",
   "kind": "Static marketing site",
   "stage": "live",
-  "health": "idle",
+  "health": "attention",
   "summary": "VolleyTally marketing and support site.",
   "updatedAt": "2026-09-04",
-  "updatedBy": "Claude Code (Fable 5.1)",
+  "updatedBy": "Claude Code (Fable 5.1 review)",
   "current": [
     "Last change 2026-07-24 (Android assetlinks). Three dirty local files on Primary."
   ],
@@ -15,10 +15,20 @@
   "blockers": [],
   "decisions": [],
   "next": [
-    "Triage the 3 local edits.",
-    "Refresh screenshots when 4.0 ships."
+    "Mark the Live content in /help/, /privacy/, /terms/ as 4.0 until 4.0 is in both stores (S, needs review question 1).",
+    "Clean the Primary checkout (delete drafts/ and .DS_Store) and add .gitignore for .DS_Store, .codex/, drafts/ (S).",
+    "Home page hygiene: Help nav to /help/, Terms in footer, Android in OG/Twitter copy, lazy-load screenshots, add /help/ to sitemap, fix help index footer (S).",
+    "4.0 home page refresh with Live feature block, /live/ help, fresh screenshots; gated on 4.0 live in both stores (M).",
+    "Image pipeline: 660 px WebP plus PNG fallback for the three phone screenshots, drop unused fix-a-stray-tap.png (S).",
+    "Self-host Roboto Mono, drop the Google Fonts import, fix the /live/ and /watch/ code-box font stack (S).",
+    "Decide analytics: remove data-track attributes and README step 5, or wire a privacy-respecting counter and update /privacy/ (S, needs review question 2).",
+    "Flip /watch/ to PHASE 2 when VolleyTally 4.0 with the /watch/* link claim is in both stores (S, needs review question 3)."
   ],
-  "later": [],
+  "later": [
+    "OG tags for /privacy/ and /terms/.",
+    "docs/PAGE_TEMPLATE.md checklist for hand-copied header, footer, canonical, OG, help nav.",
+    "Optional: turn off CodeQL default setup for this static repo."
+  ],
   "intentions": "Follows the app.",
   "links": [
     {
@@ -28,6 +38,10 @@
     {
       "label": "Live",
       "url": "https://volleytallyapp.com"
+    },
+    {
+      "label": "Review 2026-09-04",
+      "url": "https://github.com/HarpElle/volleytallyapp.com/blob/main/status/REVIEW_2026-09-04.md"
     }
   ]
 }
