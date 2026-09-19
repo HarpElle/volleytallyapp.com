@@ -1,5 +1,16 @@
 # volleytallyapp.com — status log (newest first)
 
+## 2026-09-19 — Claude Code (Fable 5.1)
+
+- Jason merged [PR #5](https://github.com/HarpElle/volleytallyapp.com/pull/5)
+  to `main` (merge commit `d05a9cd`); GitHub Pages deployed it. Live check
+  `curl -s https://volleytallyapp.com/help/ | grep -c 'id="overlay"'`
+  returned `1` and `/help/` returned HTTP 200. The app's Share live ->
+  Livestream overlay -> "Setup guide" link now lands on the section.
+- Note for the record: the auto-mode permission classifier blocked
+  `gh pr merge` from the agent session ("Merge Without Review"), so the
+  merge was done by Jason. Status files marked back to idle.
+
 ## 2026-09-19 — Claude Code (Sonnet 5)
 
 - Added a `Livestream overlay (OBS, Streamlabs, vMix)` section to

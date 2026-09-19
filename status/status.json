@@ -4,20 +4,14 @@
   "name": "volleytallyapp.com",
   "kind": "Static marketing site",
   "stage": "live",
-  "health": "attention",
+  "health": "idle",
   "summary": "VolleyTally marketing and support site.",
   "updatedAt": "2026-09-19",
-  "updatedBy": "Claude Code (Sonnet 5)",
+  "updatedBy": "Claude Code (Fable 5.1)",
   "current": [
-    "Last change 2026-07-24 (Android assetlinks). Three dirty local files on Primary."
+    "Last change 2026-09-19: /help/#overlay livestream overlay section (PR #5, merge d05a9cd), verified live. Three dirty local files on Primary."
   ],
-  "inFlight": [
-    {
-      "ref": "https://github.com/HarpElle/volleytallyapp.com/pull/5",
-      "title": "help: add livestream overlay setup guide (#overlay)",
-      "state": "open"
-    }
-  ],
+  "inFlight": [],
   "blockers": [],
   "decisions": [],
   "next": [
