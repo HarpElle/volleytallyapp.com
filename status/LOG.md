@@ -1,5 +1,29 @@
 # volleytallyapp.com — status log (newest first)
 
+## 2026-09-19 — Claude Code (Sonnet 5)
+
+- Added a `Livestream overlay (OBS, Streamlabs, vMix)` section to
+  `help/index.html` with the exact anchor `id="overlay"`, at the request of
+  the VolleyTally app team: app 4.0.0 (WP-17, iOS build 53) opens
+  `/help/#overlay` from Share live -> Livestream overlay -> "Setup guide",
+  and the app no longer shows the OBS sizing text itself. Content covers
+  what the overlay is, where the link comes from in the app, OBS/Streamlabs/
+  vMix setup steps, the minimal-bar and boxed-bug sizes for a 1080p canvas,
+  what viewers see (including Switch sides behavior), and troubleshooting.
+  Linked to the new section from the existing "Live match sharing" section
+  on the same page. No other copy changed.
+- Verified locally before opening the PR: `id="overlay"` appears exactly
+  once in `help/index.html`; opening/closing tag counts balance; `tidy -q -e`
+  warning count on the file is unchanged from `main` (27, pre-existing
+  parser quirks on this minified single-line HTML5 file); serving the repo
+  with `python3 -m http.server` and navigating to `/help/#overlay` in a
+  headless browser scrolled the page so the new heading sits at the top of
+  the viewport.
+- Opened [PR #5](https://github.com/HarpElle/volleytallyapp.com/pull/5).
+  This is a static GitHub Pages site (source = `main` branch root, no build
+  step), so merging to `main` is the deploy; not merged yet pending the
+  live curl check after merge.
+
 ## 2026-09-04 — Claude Code (Fable 5.1 review)
 
 - Read-only review of `main` at `15cac73`: all 18 pages, `assets/`,

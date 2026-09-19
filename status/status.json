@@ -6,12 +6,18 @@
   "stage": "live",
   "health": "attention",
   "summary": "VolleyTally marketing and support site.",
-  "updatedAt": "2026-09-04",
-  "updatedBy": "Claude Code (Fable 5.1 review)",
+  "updatedAt": "2026-09-19",
+  "updatedBy": "Claude Code (Sonnet 5)",
   "current": [
     "Last change 2026-07-24 (Android assetlinks). Three dirty local files on Primary."
   ],
-  "inFlight": [],
+  "inFlight": [
+    {
+      "ref": "https://github.com/HarpElle/volleytallyapp.com/pull/5",
+      "title": "help: add livestream overlay setup guide (#overlay)",
+      "state": "open"
+    }
+  ],
   "blockers": [],
   "decisions": [],
   "next": [
