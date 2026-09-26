@@ -1,5 +1,15 @@
 # volleytallyapp.com — status log (newest first)
 
+## 2026-09-26 — Claude Code (Opus 5.5)
+
+- `/privacy/`: new "Deleting your data" section (`#delete-data`) for the
+  Google Play Data safety deletion link: on-device deletion, automatic Live
+  expiry, email request for feedback / reply email / chat (30 days),
+  anonymous stats not deletable individually, purchases via Apple/Google.
+  Effective date moved to September 26, 2026.
+- Home `<title>` and og/twitter descriptions now say iPhone, iPad and
+  Android ("Live Volleyball Scoreboard"), matching the 4.0 store name.
+
 ## 2026-09-19 — Claude Code (Fable 5.1)
 
 - Jason merged [PR #5](https://github.com/HarpElle/volleytallyapp.com/pull/5)
