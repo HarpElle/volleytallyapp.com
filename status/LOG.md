@@ -1,5 +1,16 @@
 # volleytallyapp.com — status log (newest first)
 
+## 2026-11-21 — Claude Code (Opus 5.5)
+
+- `/privacy/`: new paragraph under "Live broadcast and watch" for the Fan
+  Zone (VolleyTally 4.1 WP-08a, D20 option 1). The name a fan enters shows on
+  their chat messages to everyone watching. The name and cheering picks go
+  to the live service for the viewer count and check-ins but are not shown
+  to other fans (VolleyTrack keeps them in a server-only document,
+  `firestore.rules:336`). Hidden messages are stored only on the device.
+  PR only; the merge needs Jason's go, and the effective date moves to the
+  merge day.
+
 ## 2026-09-26 — Claude Code (Opus 5.5)
 
 - `/privacy/`: new "Deleting your data" section (`#delete-data`) for the

@@ -1,6 +1,6 @@
 # volleytallyapp.com — current state
 
-Updated: 2026-09-26 by Claude Code (Opus 5.5)
+Updated: 2026-11-21 by Claude Code (Opus 5.5)
 Stage: **live** · Health: **idle**
 
 VolleyTally marketing and support site.
@@ -12,7 +12,7 @@ VolleyTally marketing and support site.
 
 ## In flight
 
-- Nothing in flight.
+- `/privacy/` Fan Zone paragraph (VolleyTally 4.1 WP-08a, D20 option 1): PR open, waits on Jason's go to merge (a merge deploys). Effective date to be moved to the merge day.
 
 ## Blockers
 
