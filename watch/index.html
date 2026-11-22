@@ -22,6 +22,7 @@
     .watch-actions .button { justify-content:center; }
     .watch-alt { margin-top:34px; color:var(--muted); font-size:.95rem; line-height:1.7; }
     .watch-alt strong { color:var(--ink); }
+    .nowrap { white-space:nowrap; }
     .watch-missing { color:var(--muted); }
   </style>
 </head>
@@ -33,70 +34,135 @@
   <main class="watch-wrap" id="main">
     <p class="section-label">Live match</p>
     <h1>Watch it live.</h1>
-    <p class="watch-lead">A coach is sharing this match. Open it in the app to follow the score as it happens.</p>
+    <p class="watch-lead">A coach is sharing this match. Open it in VolleyTally to follow the score as it happens.</p>
 
     <div id="code-box" class="watch-code" aria-label="Match code" hidden></div>
-    <p id="no-code" class="watch-missing" hidden>This link is missing its match code. Ask the coach to share it again.</p>
+    <p id="no-code" class="watch-missing" hidden></p>
 
     <div id="actions" class="watch-actions" hidden></div>
     <p id="alt" class="watch-alt" hidden></p>
+    <noscript><p class="watch-alt">Open VolleyTally, tap <strong class="nowrap">Watch a live Match</strong>, and enter the code from the link.</p></noscript>
   </main>
 
   <script>
   (function () {
     /**
-     * Watch-link chain configuration.
+     * Watch page. VolleyTrack shares https://volleytallyapp.com/watch/<CODE>,
+     * and the 404 page forwards that path here as ?c=<CODE>.
      *
-     * PHASE 1 (current): VolleyTrack is the only app with Spectator View.
-     *   Chain: volleytrack:// scheme -> VolleyTrack on the App Store.
-     * PHASE 2 (when the VolleyTally spectator update is live):
-     *   1. Ship VolleyTally with the Universal/App Link claim for
-     *      volleytallyapp.com/watch/* — installed VolleyTally users then open
-     *      the match directly and never reach this page.
-     *   2. Flip PHASE to 2 below. The page then tries VolleyTally's scheme
-     *      first, then VolleyTrack's, and falls back to VolleyTally's store
-     *      listing — no app re-release needed for this page's behavior.
+     * Codes follow the app's rules (isValidJoinCode): trim, uppercase, then
+     * exactly 4 or 6 characters from the alphabet below. A 6-character code
+     * can only be a VolleyTrack broadcast. A 4-character code may be either
+     * app's, as in the app, so the page claims nothing about it.
+     *
+     * VolleyTrack appears only when /config/volleytrack-promo-v1.json says
+     * promote is exactly true for the visitor's platform. If the file is
+     * missing, slow, redirected or malformed, only VolleyTally shows.
      */
-    var PHASE = 1;
-    var APPS = {
-      volleytally: {
-        name: 'VolleyTally',
-        scheme: function (code) { return 'volleytally://spectate/' + code; },
-        appStore: 'https://apps.apple.com/us/app/volleytally/id6743733066',
-        playStore: 'https://play.google.com/store/apps/details?id=com.HarpElle.volleytally'
-      },
-      volleytrack: {
-        name: 'VolleyTrack',
-        scheme: function (code) { return 'volleytrack://spectate/' + code; },
-        appStore: 'https://apps.apple.com/us/app/volleytrack/id6758875792',
-        playStore: null
-      }
+    var ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+    var CODE_PATTERN = new RegExp('^(?:[' + ALPHABET + ']{4}|[' + ALPHABET + ']{6})$');
+    var PROMO_PATH = '/config/volleytrack-promo-v1.json';
+
+    var VOLLEYTALLY = {
+      name: 'VolleyTally',
+      scheme: 'volleytally://spectate/',
+      ios: 'https://apps.apple.com/us/app/volleytally/id6743733066',
+      android: 'https://play.google.com/store/apps/details?id=com.HarpElle.volleytally'
     };
-    var chain = PHASE === 2
-      ? { open: [APPS.volleytally, APPS.volleytrack], store: APPS.volleytally }
-      : { open: [APPS.volleytrack], store: APPS.volleytrack };
+    var VOLLEYTRACK = {
+      name: 'VolleyTrack',
+      scheme: 'volleytrack://spectate/',
+      ios: 'https://apps.apple.com/app/id6758875792',
+      android: 'https://play.google.com/store/apps/details?id=com.harpelleapps.volleytrack'
+    };
 
-    var code = null;
-    var m = location.pathname.match(/^\/watch\/([A-Za-z0-9]{3,8})\/?$/);
-    if (m) code = m[1];
-    if (!code) code = new URLSearchParams(location.search).get('c');
-    if (code) code = code.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8) || null;
+    function platform() {
+      var ua = navigator.userAgent || '';
+      if (/Android/i.test(ua)) return 'android';
+      if (/iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) return 'ios';
+      return 'other';
+    }
 
+    function readCode() {
+      var raw = null;
+      var m = location.pathname.match(/^\/watch\/([^\/]+)\/?$/);
+      if (m) raw = m[1];
+      if (!raw) raw = new URLSearchParams(location.search).get('c');
+      if (!raw) return { state: 'none' };
+      try { raw = decodeURIComponent(raw); } catch (e) { /* keep raw; it fails validation */ }
+      var code = raw.trim().toUpperCase();
+      return CODE_PATTERN.test(code) ? { state: 'ok', code: code } : { state: 'bad' };
+    }
+
+    function link(href, label, primary) {
+      var a = document.createElement('a');
+      a.className = 'button ' + (primary ? 'button-primary' : 'button-quiet');
+      a.href = href;
+      a.textContent = label;
+      if (/^https:/.test(href)) a.rel = 'noopener';
+      return a;
+    }
+
+    function storeLabel(app, store) {
+      return 'Get ' + app.name + (store === 'ios' ? ' on the App Store' : ' on Google Play');
+    }
+
+    // The same rules the app applies: schema 1, plain objects, real booleans.
+    // Anything else means off.
+    function promoOn(text, plat) {
+      if (plat !== 'ios' && plat !== 'android') return false;
+      if (typeof text !== 'string' || text.length > 8192) return false;
+      var data;
+      try { data = JSON.parse(text); } catch (e) { return false; }
+      function plain(v) { return typeof v === 'object' && v !== null && !Array.isArray(v); }
+      if (!plain(data) || data.schema !== 1 || !plain(data.volleytrack)) return false;
+      var ios = data.volleytrack.ios, android = data.volleytrack.android;
+      if (!plain(ios) || !plain(android)) return false;
+      if (typeof ios.promote !== 'boolean' || typeof ios.viewerUpsell !== 'boolean') return false;
+      if (typeof android.promote !== 'boolean' || typeof android.viewerUpsell !== 'boolean') return false;
+      return (plat === 'ios' ? ios : android).promote === true;
+    }
+
+    function fetchPromo(plat, done) {
+      if (plat === 'other' || !window.fetch) { done(false); return; }
+      var ctl = window.AbortController ? new AbortController() : null;
+      var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 4000);
+      fetch(PROMO_PATH, { credentials: 'omit', cache: 'no-store', signal: ctl ? ctl.signal : undefined })
+        .then(function (r) {
+          if (!r.ok || r.redirected || new URL(r.url).pathname !== PROMO_PATH) throw new Error('not the file');
+          return r.text();
+        })
+        .then(function (t) { clearTimeout(timer); done(promoOn(t, plat)); })
+        .catch(function () { clearTimeout(timer); done(false); });
+    }
+
+    var plat = platform();
+    var parsed = readCode();
     var codeBox = document.getElementById('code-box');
     var actions = document.getElementById('actions');
     var alt = document.getElementById('alt');
+    var problem = document.getElementById('no-code');
 
-    if (!code) {
-      document.getElementById('no-code').hidden = false;
-      var storeBtn = document.createElement('a');
-      storeBtn.className = 'button button-quiet';
-      storeBtn.href = chain.store.appStore;
-      storeBtn.textContent = 'Get ' + chain.store.name;
-      actions.appendChild(storeBtn);
+    function addStores(app) {
+      if (plat === 'other') {
+        actions.appendChild(link(app.ios, storeLabel(app, 'ios'), false));
+        actions.appendChild(link(app.android, storeLabel(app, 'android'), false));
+      } else {
+        actions.appendChild(link(app[plat], storeLabel(app, plat), false));
+      }
+    }
+
+    if (parsed.state !== 'ok') {
+      problem.textContent = parsed.state === 'none'
+        ? 'This link is missing its match code. Ask the coach to share it again.'
+        : 'That match code does not look right. Ask the coach to share the link again.';
+      problem.hidden = false;
+      addStores(VOLLEYTALLY);
       actions.hidden = false;
       return;
     }
 
+    var code = parsed.code;
     code.split('').forEach(function (ch) {
       var s = document.createElement('span');
       s.textContent = ch;
@@ -104,25 +170,23 @@
     });
     codeBox.hidden = false;
 
-    chain.open.forEach(function (app, i) {
-      var btn = document.createElement('a');
-      btn.className = 'button ' + (i === 0 ? 'button-primary' : 'button-quiet');
-      btn.href = app.scheme(code);
-      btn.textContent = 'Open in ' + app.name;
-      actions.appendChild(btn);
-    });
-    var isAndroid = /Android/i.test(navigator.userAgent);
-    var storeHref = (isAndroid && chain.store.playStore) ? chain.store.playStore : chain.store.appStore;
-    var store = document.createElement('a');
-    store.className = 'button button-quiet';
-    store.href = storeHref;
-    store.rel = 'noopener';
-    store.textContent = 'Get ' + chain.store.name + (isAndroid && chain.store.playStore ? ' on Google Play' : ' on the App Store');
-    actions.appendChild(store);
+    if (plat !== 'other') {
+      actions.appendChild(link(VOLLEYTALLY.scheme + code, 'Open in VolleyTally', true));
+    }
+    addStores(VOLLEYTALLY);
     actions.hidden = false;
 
-    alt.innerHTML = 'Already have the app? Open it, choose <strong>Watch a Live Match</strong>, and enter code <strong>' + code + '</strong>.';
+    alt.innerHTML = plat === 'other'
+      ? 'Open this link on your phone. In VolleyTally, tap <strong class="nowrap">Watch a live Match</strong> and enter code <strong>' + code + '</strong>.'
+      : 'Already have VolleyTally? Open it, tap <strong class="nowrap">Watch a live Match</strong>, and enter code <strong>' + code + '</strong>.';
     alt.hidden = false;
+
+    // VolleyTrack joins the list only while promotion is on for this platform.
+    fetchPromo(plat, function (on) {
+      if (!on) return;
+      actions.appendChild(link(VOLLEYTRACK.scheme + code, 'Open in VolleyTrack', false));
+      actions.appendChild(link(VOLLEYTRACK[plat], storeLabel(VOLLEYTRACK, plat), false));
+    });
   })();
   </script>
 </body>
