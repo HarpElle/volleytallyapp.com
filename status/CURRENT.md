@@ -1,6 +1,6 @@
 # volleytallyapp.com — current state
 
-Updated: 2026-11-21 by Claude Code (Opus 5.5)
+Updated: 2026-11-27 by Claude Code (Opus 5.5)
 Stage: **live** · Health: **idle**
 
 VolleyTally marketing and support site.
@@ -12,7 +12,8 @@ VolleyTally marketing and support site.
 
 ## In flight
 
-- `/privacy/` Fan Zone paragraph (VolleyTally 4.1 WP-08a, D20 option 1): PR open, waits on Jason's go to merge (a merge deploys). Effective date to be moved to the merge day.
+- `/privacy/` Fan Zone paragraph (VolleyTally 4.1 WP-08a): merged 2026-11-27 (PR #9, effective date November 27, 2026), verified live.
+- Branch `site/wp18b-watch-promo` (WP-18b, PR #10; merge is a production deploy and needs Jason's go): `config/volleytrack-promo-v1.json` (every value false), `/watch/` phase driven by `watchPage.tallyFirst` per D47 A (VolleyTrack first by default; Android Google Play fix), `/help/#volleytrack`.
 
 ## Blockers
 
