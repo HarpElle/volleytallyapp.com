@@ -4,5 +4,9 @@
   "volleytrack": {
     "ios": { "promote": false, "viewerUpsell": false },
     "android": { "promote": false, "viewerUpsell": false }
+  },
+  "watchPage": {
+    "ios": { "tallyFirst": false },
+    "android": { "tallyFirst": false }
   }
 }

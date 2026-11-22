@@ -9,11 +9,11 @@
 - Branch `site/wp18b-watch-promo` (VolleyTally 4.1 WP-18b), not pushed:
   - `config/volleytrack-promo-v1.json`: `schema` 1, every `promote` and
     `viewerUpsell` false. Checked with the app's `promo:check --file`.
-  - `/watch/`: 4- or 6-character codes by the app's alphabet, VolleyTally
-    open button and the right store (App Store, Google Play, or both on
-    desktop), Android label fixed. VolleyTrack buttons appear only when the
-    file says `promote` is `true` for the visitor's platform. The old PHASE
-    switch is gone.
+  - `/watch/`: 4- or 6-character codes by the app's alphabet; Android store
+    label and link fixed. Phase comes from the file's optional
+    `watchPage.<platform>.tallyFirst` (all false): false or any doubt keeps
+    VolleyTrack first as before; true gives VolleyTally first with the right
+    store. VolleyTrack buttons in that flow need `promote` true.
   - `/help/#volleytrack`: "Watch a VolleyTrack match".
 
 ## 2026-11-21 — Claude Code (Opus 5.5)
