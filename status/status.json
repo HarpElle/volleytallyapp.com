@@ -6,12 +6,14 @@
   "stage": "live",
   "health": "idle",
   "summary": "VolleyTally marketing and support site.",
-  "updatedAt": "2026-09-19",
-  "updatedBy": "Claude Code (Fable 5.1)",
+  "updatedAt": "2026-11-21",
+  "updatedBy": "Claude Code (Opus 5.5)",
   "current": [
     "Last change 2026-09-19: /help/#overlay livestream overlay section (PR #5, merge d05a9cd), verified live. Three dirty local files on Primary."
   ],
-  "inFlight": [],
+  "inFlight": [
+    "/privacy/ Fan Zone paragraph (VolleyTally 4.1 WP-08a): PR open, waits on Jason's go to merge."
+  ],
   "blockers": [],
   "decisions": [],
   "next": [
