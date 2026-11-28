@@ -181,6 +181,22 @@
       problem.hidden = false;
     }
 
+    // Builds the "already have the app" line from DOM nodes. A string is plain
+    // text; a [className, text] pair is a <strong> (className may be empty).
+    function setAlt(parts) {
+      alt.textContent = '';
+      parts.forEach(function (part) {
+        if (typeof part === 'string') {
+          alt.appendChild(document.createTextNode(part));
+          return;
+        }
+        var strong = document.createElement('strong');
+        if (part[0]) strong.className = part[0];
+        strong.textContent = part[1];
+        alt.appendChild(strong);
+      });
+    }
+
     function renderVolleyTrackFirst() {
       if (!code) {
         addStores(VOLLEYTRACK, false);
@@ -190,7 +206,7 @@
       actions.appendChild(link(VOLLEYTRACK.scheme + code, 'Open in VolleyTrack', true));
       addStores(VOLLEYTRACK, false);
       actions.hidden = false;
-      alt.innerHTML = 'Already have the app? Open it, choose <strong class="nowrap">Watch a Live Match</strong>, and enter code <strong>' + code + '</strong>.';
+      setAlt(['Already have the app? Open it, choose ', ['nowrap', 'Watch a Live Match'], ', and enter code ', ['', code], '.']);
       alt.hidden = false;
     }
 
@@ -209,9 +225,9 @@
         addStores(VOLLEYTRACK, false);
       }
       actions.hidden = false;
-      alt.innerHTML = plat === 'other'
-        ? 'Open this link on your phone. In VolleyTally, tap <strong class="nowrap">Watch a live Match</strong> and enter code <strong>' + code + '</strong>.'
-        : 'Already have VolleyTally? Open it, tap <strong class="nowrap">Watch a live Match</strong>, and enter code <strong>' + code + '</strong>.';
+      setAlt(plat === 'other'
+        ? ['Open this link on your phone. In VolleyTally, tap ', ['nowrap', 'Watch a live Match'], ' and enter code ', ['', code], '.']
+        : ['Already have VolleyTally? Open it, tap ', ['nowrap', 'Watch a live Match'], ', and enter code ', ['', code], '.']);
       alt.hidden = false;
     }
 
