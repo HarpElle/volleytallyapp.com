@@ -1,5 +1,21 @@
 # volleytallyapp.com — status log (newest first)
 
+## 2026-11-27 — Claude Code (Opus 5.5)
+
+- Merged PR #9 with Jason's go: `/privacy/` Fan Zone paragraph, effective date moved to November 27, 2026. Verified live. Previous main: c719cdf.
+
+## 2026-11-22 — Claude Code (Sonnet 5.5)
+
+- Branch `site/wp18b-watch-promo` (VolleyTally 4.1 WP-18b), not pushed:
+  - `config/volleytrack-promo-v1.json`: `schema` 1, every `promote` and
+    `viewerUpsell` false. Checked with the app's `promo:check --file`.
+  - `/watch/`: 4- or 6-character codes by the app's alphabet; Android store
+    label and link fixed. Phase comes from the file's optional
+    `watchPage.<platform>.tallyFirst` (all false): false or any doubt keeps
+    VolleyTrack first as before; true gives VolleyTally first with the right
+    store. VolleyTrack buttons in that flow need `promote` true.
+  - `/help/#volleytrack`: "Watch a VolleyTrack match".
+
 ## 2026-11-21 — Claude Code (Opus 5.5)
 
 - `/privacy/`: new paragraph under "Live broadcast and watch" for the Fan

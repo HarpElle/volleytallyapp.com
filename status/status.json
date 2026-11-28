@@ -6,13 +6,14 @@
   "stage": "live",
   "health": "idle",
   "summary": "VolleyTally marketing and support site.",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-27",
   "updatedBy": "Claude Code (Opus 5.5)",
   "current": [
     "Last change 2026-09-19: /help/#overlay livestream overlay section (PR #5, merge d05a9cd), verified live. Three dirty local files on Primary."
   ],
   "inFlight": [
-    "/privacy/ Fan Zone paragraph (VolleyTally 4.1 WP-08a): PR open, waits on Jason's go to merge."
+    "/privacy/ Fan Zone paragraph merged 2026-11-27 (PR #9), verified live.",
+    "WP-18b (PR #10): hosted promo JSON with every value false, /watch/ phase from the file per D47 A, /help/#volleytrack. Merge needs Jason's go."
   ],
   "blockers": [],
   "decisions": [],
@@ -23,8 +24,7 @@
     "4.0 home page refresh with Live feature block, /live/ help, fresh screenshots; gated on 4.0 live in both stores (M).",
     "Image pipeline: 660 px WebP plus PNG fallback for the three phone screenshots, drop unused fix-a-stray-tap.png (S).",
     "Self-host Roboto Mono, drop the Google Fonts import, fix the /live/ and /watch/ code-box font stack (S).",
-    "Decide analytics: remove data-track attributes and README step 5, or wire a privacy-respecting counter and update /privacy/ (S, needs review question 2).",
-    "Flip /watch/ to PHASE 2 when VolleyTally 4.0 with the /watch/* link claim is in both stores (S, needs review question 3)."
+    "Decide analytics: remove data-track attributes and README step 5, or wire a privacy-respecting counter and update /privacy/ (S, needs review question 2)."
   ],
   "later": [
     "OG tags for /privacy/ and /terms/.",
